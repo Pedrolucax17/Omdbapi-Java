@@ -1,5 +1,6 @@
 package br.com.alura.screenmatchSpring;
 
+import br.com.alura.screenmatchSpring.model.DataEpisode;
 import br.com.alura.screenmatchSpring.model.DataSeries;
 import br.com.alura.screenmatchSpring.service.ConsumeAPI;
 import br.com.alura.screenmatchSpring.service.ConvertsData;
@@ -23,6 +24,11 @@ public class ScreenmatchSpringApplication implements CommandLineRunner {
 
 		DataSeries series = convert.getDatas(json, DataSeries.class);
 
-		System.out.println(series.title() + series.rating() + series.totalSeasons());
+		System.out.println(series);
+
+		url = "https://www.omdbapi.com/?t=gilmore+girls&season=1&episode=2&apikey=1e8a0a02";
+		json = ConsumeAPI.getData(url);
+		DataEpisode episode = convert.getDatas(json, DataEpisode.class);
+		System.out.println(episode);
 	}
 }
