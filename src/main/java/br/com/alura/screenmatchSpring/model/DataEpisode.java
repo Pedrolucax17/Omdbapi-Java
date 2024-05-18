@@ -14,7 +14,9 @@ public record DataEpisode(
         @JsonAlias("Season")
         Integer season,
         @JsonAlias("Released")
-        String released
+        String released,
+        @JsonAlias("imdbRating")
+        String imdbRating
 
 ) {
 }
