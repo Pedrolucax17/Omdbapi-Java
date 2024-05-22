@@ -1,6 +1,8 @@
 package br.com.alura.screenmatchSpring.model;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 public class Episode {
     private Integer season;
@@ -8,6 +10,33 @@ public class Episode {
     private Integer numberEp;
     private Double rating;
     private LocalDate released;
+
+    @Override
+    public String toString() {
+        return "Episode{" +
+                "season=" + season +
+                ", title='" + title + '\'' +
+                ", numberEp=" + numberEp +
+                ", rating=" + rating +
+                ", released=" + released +
+                '}';
+    }
+
+    public Episode(Integer numberSeason, DataEpisode d) {
+        this.season = numberSeason;
+        this.title = d.title();
+        this.numberEp = d.numberEp();
+        try {
+            this.rating = Double.valueOf(d.imdbRating());
+        }catch (NumberFormatException e){
+            this.rating = 0.0;
+        }
+        try {
+            this.released = LocalDate.parse(d.released());
+        }catch(DateTimeParseException e){
+            this.released = null;
+        }
+    }
 
     public Integer getSeason() {
         return season;

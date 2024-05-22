@@ -7,6 +7,8 @@ import br.com.alura.screenmatchSpring.model.Episode;
 import br.com.alura.screenmatchSpring.service.ConsumeAPI;
 import br.com.alura.screenmatchSpring.service.ConvertsData;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -54,5 +56,31 @@ public class Main {
                 .sorted(Comparator.comparing(DataEpisode::imdbRating).reversed())
                 .limit(5)
                 .forEach(System.out::println);
+
+        List<Episode> episodes = seasons.stream()
+                .flatMap(t -> t.episodes().stream()
+                        .map(d -> new Episode(t.numberSeason(), d)))
+                .collect(Collectors.toList());
+
+        episodes.forEach(System.out::println);
+
+
+        episodes.forEach(System.out::println);
+
+        System.out.println("A partir de que ano você deseja ver os episódios?");
+        int year = sc.nextInt();
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate searchDate = LocalDate.of(year, 1, 1);
+
+        episodes.stream()
+                .filter(e -> e.getReleased() != null && e.getReleased().isAfter(searchDate))
+                .forEach(e -> System.out.println(
+                    "Temporada " + e.getSeason() +
+                    " Episódio " + e.getNumberEp() +
+                    " Data Lançamento " + e.getReleased().format(dtf)
+                ));
+
+
     }
 }
