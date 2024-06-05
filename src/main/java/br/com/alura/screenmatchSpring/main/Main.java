@@ -43,7 +43,7 @@ public class Main {
                     listSeries();
                     break;
                 case 0:
-                    System.out.println("Saindo...");
+                    System.out.println("Saindo da aplicação...");
                     break;
                 default:
                     System.out.println("Opção inválida");
