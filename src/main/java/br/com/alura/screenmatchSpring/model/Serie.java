@@ -3,6 +3,8 @@ package br.com.alura.screenmatchSpring.model;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.OptionalDouble;
 
 @Entity
@@ -27,6 +29,11 @@ public class Serie {
     private String plot;
 
     private String poster;
+
+    @Transient
+    private List<Episode> episodes = new ArrayList<>();
+
+    public Serie(){}
 
     public Serie(DataSeries dataSeries){
         this.title = dataSeries.title();
@@ -100,5 +107,28 @@ public class Serie {
 
     public void setPoster(String poster) {
         this.poster = poster;
+    }
+
+    public List<Episode> getEpisodes() {
+        return episodes;
+    }
+
+    public void setEpisodes(List<Episode> episodes) {
+        this.episodes = episodes;
+    }
+
+    @Override
+    public String toString() {
+        return "Serie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", totalSeasons=" + totalSeasons +
+                ", rating=" + rating +
+                ", genre=" + genre +
+                ", actors='" + actors + '\'' +
+                ", plot='" + plot + '\'' +
+                ", poster='" + poster + '\'' +
+                ", episodes=" + episodes +
+                '}';
     }
 }

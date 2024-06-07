@@ -1,12 +1,12 @@
 package br.com.alura.screenmatchSpring.main;
 
-import br.com.alura.screenmatchSpring.model.DataEpisode;
-import br.com.alura.screenmatchSpring.model.DataSeason;
-import br.com.alura.screenmatchSpring.model.DataSeries;
-import br.com.alura.screenmatchSpring.model.Episode;
+import br.com.alura.screenmatchSpring.model.*;
+import br.com.alura.screenmatchSpring.repository.SerieRepository;
 import br.com.alura.screenmatchSpring.service.ConsumeAPI;
 import br.com.alura.screenmatchSpring.service.ConvertsData;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -18,6 +18,12 @@ public class Main {
     private final String API_KEY = "&apikey=1e8a0a02";
     private Scanner sc = new Scanner(System.in);
     private List<DataSeries> dataSeries = new ArrayList<>();
+
+    private SerieRepository serieRepository;
+
+    public Main(SerieRepository serieRepository){
+        this.serieRepository = serieRepository;
+    }
 
     public void showMenu(){
         int option = -1;
@@ -52,9 +58,10 @@ public class Main {
     }
 
     private void searchSerieWeb(){
-        DataSeries series = getDataSerie();
-        dataSeries.add(series);
-        System.out.println(series);
+        DataSeries dataSerie = getDataSerie();
+        Serie serie = new Serie(dataSerie);
+        serieRepository.save(serie);
+        System.out.println(dataSerie);
     }
 
     private DataSeries getDataSerie(){
@@ -80,6 +87,11 @@ public class Main {
     }
 
     private void listSeries(){
-        dataSeries.forEach(System.out::println);
+        List<Serie> series = serieRepository.findAll();
+        series
+                .stream()
+                .sorted(Comparator.comparing(Serie::getGenre))
+                .forEach(System.out::println);
+
     }
 }
