@@ -1,15 +1,28 @@
 package br.com.alura.screenmatchSpring.model;
 
+import jakarta.persistence.*;
+
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+@Entity
+@Table(name = "tbl_episode")
 public class Episode {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Integer season;
     private String title;
+
+    @Column(name = "number_ep")
     private Integer numberEp;
     private Double rating;
     private LocalDate released;
+
+    @ManyToOne
+    private Serie serie;
 
     @Override
     public String toString() {
@@ -21,6 +34,8 @@ public class Episode {
                 ", released=" + released +
                 '}';
     }
+
+    public Episode(){}
 
     public Episode(Integer numberSeason, DataEpisode d) {
         this.season = numberSeason;
@@ -36,6 +51,22 @@ public class Episode {
         }catch(DateTimeParseException e){
             this.released = null;
         }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Serie getSerie() {
+        return serie;
+    }
+
+    public void setSerie(Serie serie) {
+        this.serie = serie;
     }
 
     public Integer getSeason() {
