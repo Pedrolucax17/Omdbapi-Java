@@ -12,6 +12,7 @@ public record SerieDto(
         Double rating,
         Category genre,
         String actors,
+        String poster,
         String plot
 ) {
 }
